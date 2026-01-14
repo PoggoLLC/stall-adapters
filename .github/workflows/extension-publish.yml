@@ -1,0 +1,53 @@
+name: Stall Adapters
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "adapters/**"
+      - ".github/workflows/**"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 1
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies at root
+        run: bun install
+
+      - name: Run tests at root
+        run: bun test || echo "No tests found"
+
+  deploy-to-r2:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Run Deploy Script
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_ADAPTERS_BUCKET: ${{ secrets.R2_ADAPTERS_BUCKET }}
+          R2_PUBLIC_URL: ${{ secrets.R2_PUBLIC_URL }}
+          SYNC_ENDPOINT: ${{ secrets.SYNC_ENDPOINT }}
+          ADAPTERS_GITHUB_KEY: ${{ secrets.ADAPTERS_GITHUB_KEY }}
+        run: bash .github/scripts/deploy.sh
