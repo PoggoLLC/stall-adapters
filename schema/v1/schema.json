@@ -8,7 +8,6 @@
     "name",
     "description",
     "keywords",
-    "icon",
     "version",
     "authors",
     "repo",
@@ -34,9 +33,6 @@
       "items": {
         "type": "string"
       }
-    },
-    "icon": {
-      "type": "string"
     },
     "version": {
       "type": "string",
