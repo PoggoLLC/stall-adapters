@@ -13,8 +13,7 @@
     "authors",
     "repo",
     "homepage",
-    "offline_ready",
-    "entrypoint"
+    "offline_ready"
   ],
   "properties": {
     "$schema": {
