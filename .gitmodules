@@ -2,3 +2,6 @@
 [submodule "adapters/google-sheets"]
 	path = adapters/google-sheets
 	url = https://github.com/Sands-45/gsheets-stall-adapter.git
+[submodule "adapters/woocommerce"]
+	path = adapters/woocommerce
+	url = https://github.com/PoggoLLC/woo-stall-adapter.git
